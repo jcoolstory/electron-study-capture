@@ -17,13 +17,12 @@ function trimDesktop() {
             });
 
             win.loadURL("file://"+__dirname+"/../../index.html");
-            // console.log(win);
             return { win, display }
         });
 
         ipcMain.once("SEND_BOUNDS", (e, {trimmedBounds}) => {
             const sourceDisplay = windows.find(w=>w.win.webContents.id == e.sender.id).display
-
+            
             const profile = { sourceDisplay, trimmedBounds};
             windows.forEach( w => w.win.close() );
             resolve(profile);

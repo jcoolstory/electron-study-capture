@@ -24,8 +24,6 @@ export default class Trimmer extends React.Component {
         this.handleOnMouseUp = this.handleOnMouseUp.bind(this);
         this.handleOnMouseMove = this.handleOnMouseMove.bind(this);
         this.handleOnMouseEnter = this.handleOnMouseEnter.bind(this);
-        console.log("trimmer",this.state);
-        ipcRenderer.send("log","trimmer");
     }
 
     handleOnMouseDown(e) {
@@ -44,18 +42,16 @@ export default class Trimmer extends React.Component {
             clientPosition,
             screenPosition
         })
-        console.log("handleOnMouseDown",this.state);
     }
 
     handleOnMouseUp(){
         this.setState({ isClipping : false});
 
         const trimmedBounds = position2Bounds(this.state.screenPosition);
-
+        
         if (trimmedBounds.width > 100 && trimmedBounds.height > 100){
             ipcRenderer.send("SEND_BOUNDS", { trimmedBounds});
         }
-        console.log("handleOnMouseUp",this.state);
     }
 
     handleOnMouseMove(e) {
@@ -67,14 +63,12 @@ export default class Trimmer extends React.Component {
         screenPosition.x2 = e.screenX;
         screenPosition.y2 = e.screenY;
         this.setState( { clientPosition, screenPosition })
-        console.log("handleOnMouseMove",this.state);
     }
 
     handleOnMouseEnter(e) {
         if (!e.buttons) {
             this.setState( { isClipping : false });
-        }
-        console.log("handleOnMouseEnter",this.state);
+        };
     }
 
     renderRect() {
@@ -91,7 +85,6 @@ export default class Trimmer extends React.Component {
     }
 
     render() {
-        console.log("render",this.state);
         return (
             <div className={styles.root}
             onMouseDown={this.handleOnMouseDown}
